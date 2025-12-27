@@ -133,6 +133,7 @@ int main() {
 
 
 //2. Maximum flow using scaling algorithm
+/*
 vector<vector<int>> capacity;
 vector<vector<int>> flow;
 int n;
@@ -243,6 +244,70 @@ int main() {
             if (capacity[i][j] > 0) {
                 cout << "Edge " << i << " -> " << j << ": " << capacity[i][j] << endl;
             }
+        }
+    }
+    
+    return 0;
+}
+*/
+
+//3. Maximum bipartite matching
+vector<vector<int>> bipartiteAdj;
+vector<int> match;
+vector<bool> visited;
+
+bool dfs(int u) {
+    for (int v : bipartiteAdj[u]) {
+        if (visited[v]) continue;
+        visited[v] = true;
+        
+        if (match[v] == -1 || dfs(match[v])) {
+            match[v] = u;
+            return true;
+        }
+    }
+    return false;
+}
+
+int maxBipartiteMatching(int leftNodes, int rightNodes) {
+    match.assign(rightNodes, -1);
+    int result = 0;
+    
+    for (int u = 0; u < leftNodes; u++) {
+        visited.assign(rightNodes, false);
+        if (dfs(u)) {
+            result++;
+        }
+    }
+    
+    return result;
+}
+
+int main() {
+    //New graph: 1-5, 1-3, 2-3, 2-8, 4-6, 7-9 (undirected)
+    //left set: {1,2,4,7}, right set: {3,5,6,8,9}
+    
+    bipartiteAdj.clear();
+    bipartiteAdj.resize(4); //4 left nodes
+    
+    bipartiteAdj[0].push_back(1); //1-5
+    bipartiteAdj[0].push_back(0); //1-3
+    bipartiteAdj[1].push_back(0); //2-3
+    bipartiteAdj[1].push_back(3); //2-8
+    bipartiteAdj[2].push_back(2); //4-6
+    bipartiteAdj[3].push_back(4); //7-9
+    
+    int maxMatching = maxBipartiteMatching(4,5);
+    cout << "Maximum bipartite matching: " << maxMatching << endl;
+    
+    // Show matching edges
+    cout << "Matching edges:" << endl;
+    vector<int> leftToOriginal = {1, 2, 4, 7};
+    vector<int> rightToOriginal = {3, 5, 6, 8, 9};
+    
+    for (int v = 0; v < 5; v++) {
+        if (match[v] != -1) {
+            cout << leftToOriginal[match[v]] << "-" << rightToOriginal[v] << endl;
         }
     }
     
