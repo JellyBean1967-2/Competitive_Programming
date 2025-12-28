@@ -23,6 +23,15 @@ bool isPerfect(int num) {
     return sum == num;
 }
 
+int gcd(int a, int b) {
+    if (b == 0) return a;
+    return gcd(b, a % b);
+}
+
+int lcm(int a, int b) {
+    return (a * b) / gcd(a, b);
+}
+
 int main() {
     int n;
     cout << "Enter the number: ";
@@ -44,5 +53,17 @@ int main() {
         }
         cout << endl;
     }
+    
+    // GCD and LCM calculation
+    int a, b;
+    cout << "\nEnter two numbers for GCD and LCM: ";
+    cin >> a >> b;
+    
+    int gcdResult = gcd(a, b);
+    int lcmResult = lcm(a, b);
+    
+    cout << "GCD of " << a << " and " << b << " is: " << gcdResult << endl;
+    cout << "LCM of " << a << " and " << b << " is: " << lcmResult << endl;
+    
     return 0;
 }
