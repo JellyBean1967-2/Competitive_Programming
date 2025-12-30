@@ -4,12 +4,13 @@ explain why the value of f(n) can be calculated in o (log n) time (pg. 221)
 223 - how to find a path
 */
 
+//1.
 #include <iostream>
 #include <vector>
 using namespace std;
 
 // Matrix multiplication
-/*
+
 vector<vector<int>> multiply(const vector<vector<int>>& A, const vector<vector<int>>& B) {
     int n = A.size();
     vector<vector<int>> C(n, vector<int>(n, 0));
@@ -78,8 +79,14 @@ int main() {
     
     return 0;
 }
-*/
-
-
 
 //2.
+//f(n) can be computed in O(log n) time because it is obtained by 
+//computing X^n using repeated squaring, which requires only log n matrix 
+//multiplications.
+
+//3.
+//To recover the shortest path, start at the source node and repeatedly
+//follow the stored next pointer toward the destination exactly n times,
+//because next[i][j] always records the first step of an optimal path 
+//from i to j.
